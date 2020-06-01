@@ -177,6 +177,63 @@ namespace TransDB
         }
 
         //提问者采纳某一回答
+        //根据回答号找到回答者*
+        public string GetUserIDbyAns(int answerid)
+        {
+            var user = _context.Answers.FirstOrDefault(u => u.AnswerID == answerid);
+            if (user == null)
+            {
+                Console.WriteLine("无此回答");
+            }
+            Console.WriteLine("回答用户名:{0}", user.UserID);
+            return user.UserID;
+        }
+        //根据问题号找到提问者*
+        public string GetUserIDbyQues(int questionid)
+        {
+            var user = _context.Questions.FirstOrDefault(u => u.QuestionID== questionid);
+            if (user == null)
+            {
+                Console.WriteLine("无此问题");
+            }
+            Console.WriteLine("提问用户名:{0}", user.UserID);
+            return user.UserID;
+        }
+        public void Adopt(string userid,int questionid)
+        {
+            var user = _context.Users.FirstOrDefault(t => t.UserID == userid);
+            var question= _context.Questions.FirstOrDefault(q => q.QuestionID == questionid);
+            if (user.Wealth >= question.Reward)
+            {
+                user.Wealth -=  question.Reward;
+            }
+            _context.SaveChanges();
+            return;
+        }
+        public void AdoptAnswer(string userid,int answerid,int questionid)
+        {
+            string QUserid = GetUserIDbyQues(questionid);
+            string AUserid = GetUserIDbyAns(answerid);
+            var Ans = _context.Answers.FirstOrDefault(a => a.AnswerID == answerid);
+            var Ques = _context.Questions.FirstOrDefault(q => q.QuestionID == questionid);
+            var user = _context.Users.FirstOrDefault(u => u.UserID == AUserid);
 
+            if (userid == QUserid)
+            {
+                if(AUserid != QUserid)
+                {
+                    Ans.Isadopted = true;
+                    user.Wealth += Ques.Reward;
+                    Adopt(userid, questionid);
+                    _context.SaveChanges();
+                }
+                else
+                {
+                    Console.WriteLine("不可以采纳自己的回答");
+                }
+            }
+
+            return;
+        }
     }
 }
