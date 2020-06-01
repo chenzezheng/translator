@@ -23,7 +23,7 @@ namespace TransDB
             //dbservice.QueryAnswer("czz");
             //dbservice.GetUserIDbyAns(1);
             //dbservice.GetUserIDbyQues(1);
-            dbservice.AdoptAnswer("zdt", 1, 1);
+            dbservice.AdoptAnswer("czz", 2, 2);
         }
     }
 }

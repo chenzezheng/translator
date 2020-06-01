@@ -232,7 +232,6 @@ namespace TransDB
                     Console.WriteLine("不可以采纳自己的回答");
                 }
             }
-
             return;
         }
     }
