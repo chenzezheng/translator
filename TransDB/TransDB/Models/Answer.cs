@@ -11,18 +11,15 @@ namespace TransDB.Models
     public class Answer
     {
         [Key]
-        public string AnswerID { get; set; }
+        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]  //设置自增
+        public int AnswerID { get; set; }
         [Required]
         public string Content { get; set; }
-        public string UserID { get; set; }
-        [ForeignKey("UserID")]
-        public string QuestionID { get; set; }
-        [ForeignKey("QuestionID")]
         [Required]
         public DateTime Acreatetime { get; set; }
         [Required]
         public bool Isadopted { get; set; }
-        public User Users { get; set; }
-        public Question Questions { set; get; }
+        public string UserID { get; set; }
+        public int QuestionID { get; set; }
     }
 }

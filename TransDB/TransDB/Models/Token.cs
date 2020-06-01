@@ -13,7 +13,5 @@ namespace TransDB.Models
         [Key]
         public string TokenID { get; set; }
         public string UserID { get; set; }
-        [ForeignKey("UserID")]
-        public User Users { get; set; }
     }
 }

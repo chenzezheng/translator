@@ -11,7 +11,8 @@ namespace TransDB.Models
     public class Question
     {
         [Key]
-        public string QuestionID { get; set; }
+        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]  //设置自增
+        public int QuestionID { get; set; }
         [Required]
         public string Content { get; set; }
         [Required]
@@ -19,10 +20,6 @@ namespace TransDB.Models
         [Required]
         public DateTime Qcreatetime { get; set; }
         public string UserID { get; set; }
-        [ForeignKey("UserID")]
-        public string AnswerID { get; set; }
-        [ForeignKey("AnswerID")]
         public List<Answer> Answers { get; set; }
-        public User Users { get; set; }
     }
 }

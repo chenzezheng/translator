@@ -19,8 +19,9 @@ namespace TransDB.Migrations
 
             modelBuilder.Entity("TransDB.Models.Answer", b =>
                 {
-                    b.Property<string>("AnswerID")
-                        .HasColumnType("varchar(255) CHARACTER SET utf8mb4");
+                    b.Property<int>("AnswerID")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
 
                     b.Property<DateTime>("Acreatetime")
                         .HasColumnType("datetime(6)");
@@ -32,13 +33,15 @@ namespace TransDB.Migrations
                     b.Property<bool>("Isadopted")
                         .HasColumnType("tinyint(1)");
 
-                    b.Property<string>("QuestionID")
-                        .HasColumnType("longtext CHARACTER SET utf8mb4");
+                    b.Property<int>("QuestionID")
+                        .HasColumnType("int");
 
                     b.Property<string>("UserID")
                         .HasColumnType("varchar(255) CHARACTER SET utf8mb4");
 
                     b.HasKey("AnswerID");
+
+                    b.HasIndex("QuestionID");
 
                     b.HasIndex("UserID");
 
@@ -47,11 +50,9 @@ namespace TransDB.Migrations
 
             modelBuilder.Entity("TransDB.Models.Question", b =>
                 {
-                    b.Property<string>("QuestionID")
-                        .HasColumnType("varchar(255) CHARACTER SET utf8mb4");
-
-                    b.Property<string>("AnswerID")
-                        .HasColumnType("longtext CHARACTER SET utf8mb4");
+                    b.Property<int>("QuestionID")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
 
                     b.Property<string>("Content")
                         .IsRequired()
@@ -107,27 +108,27 @@ namespace TransDB.Migrations
 
             modelBuilder.Entity("TransDB.Models.Answer", b =>
                 {
-                    b.HasOne("TransDB.Models.Question", "Questions")
+                    b.HasOne("TransDB.Models.Question", null)
                         .WithMany("Answers")
-                        .HasForeignKey("AnswerID")
+                        .HasForeignKey("QuestionID")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("TransDB.Models.User", "Users")
+                    b.HasOne("TransDB.Models.User", null)
                         .WithMany("Answers")
                         .HasForeignKey("UserID");
                 });
 
             modelBuilder.Entity("TransDB.Models.Question", b =>
                 {
-                    b.HasOne("TransDB.Models.User", "Users")
+                    b.HasOne("TransDB.Models.User", null)
                         .WithMany("Questions")
                         .HasForeignKey("UserID");
                 });
 
             modelBuilder.Entity("TransDB.Models.Token", b =>
                 {
-                    b.HasOne("TransDB.Models.User", "Users")
+                    b.HasOne("TransDB.Models.User", null)
                         .WithMany("Tokens")
                         .HasForeignKey("UserID");
                 });

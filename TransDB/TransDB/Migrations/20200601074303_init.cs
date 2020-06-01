@@ -1,9 +1,10 @@
-﻿using System;
+﻿using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Migrations;
+using System;
 
 namespace TransDB.Migrations
 {
-    public partial class InitDataBase : Migration
+    public partial class init : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -24,12 +25,12 @@ namespace TransDB.Migrations
                 name: "Questions",
                 columns: table => new
                 {
-                    QuestionID = table.Column<string>(nullable: false),
+                    QuestionID = table.Column<int>(nullable: false)
+                        .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
                     Content = table.Column<string>(nullable: false),
                     Reward = table.Column<int>(nullable: false),
                     Qcreatetime = table.Column<DateTime>(nullable: false),
-                    UserID = table.Column<string>(nullable: true),
-                    AnswerID = table.Column<string>(nullable: true)
+                    UserID = table.Column<string>(nullable: true)
                 },
                 constraints: table =>
                 {
@@ -64,19 +65,20 @@ namespace TransDB.Migrations
                 name: "Answers",
                 columns: table => new
                 {
-                    AnswerID = table.Column<string>(nullable: false),
+                    AnswerID = table.Column<int>(nullable: false)
+                        .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
                     Content = table.Column<string>(nullable: false),
-                    UserID = table.Column<string>(nullable: true),
-                    QuestionID = table.Column<string>(nullable: true),
                     Acreatetime = table.Column<DateTime>(nullable: false),
-                    Isadopted = table.Column<bool>(nullable: false)
+                    Isadopted = table.Column<bool>(nullable: false),
+                    UserID = table.Column<string>(nullable: true),
+                    QuestionID = table.Column<int>(nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Answers", x => x.AnswerID);
                     table.ForeignKey(
-                        name: "FK_Answers_Questions_AnswerID",
-                        column: x => x.AnswerID,
+                        name: "FK_Answers_Questions_QuestionID",
+                        column: x => x.QuestionID,
                         principalTable: "Questions",
                         principalColumn: "QuestionID",
                         onDelete: ReferentialAction.Cascade);
@@ -87,6 +89,11 @@ namespace TransDB.Migrations
                         principalColumn: "UserID",
                         onDelete: ReferentialAction.Restrict);
                 });
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Answers_QuestionID",
+                table: "Answers",
+                column: "QuestionID");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Answers_UserID",
