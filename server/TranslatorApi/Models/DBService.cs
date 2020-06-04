@@ -4,9 +4,8 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using TransDB.Models;
 
-namespace TransDB
+namespace TransDB.Models
 {
     public class DBService
     {
@@ -162,12 +161,27 @@ namespace TransDB
         }
 
         //根据用户查询回答*
-        public List<Answer> QueryAnswer(string userid)
+        public List<Answer> QueryAnswerbyUserid(string userid)
         {
             IQueryable<Answer> query = _context.Answers;
             if (query != null)
             {
                 query = query.Where(a => a.UserID == userid);
+            }
+            foreach(var answer in query)
+            {
+                Console.WriteLine("回答:{0},回答者:{1}", answer.Content, answer.UserID);
+            }
+            return query.ToList();
+        }
+
+        //根据问题查询回答*
+        public List<Answer> QueryAllAnswers(int question_id)
+        {
+            IQueryable<Answer> query = _context.Answers;
+            if (query != null)
+            {
+                query = query.Where(a => a.QuestionID == question_id);
             }
             foreach(var answer in query)
             {
@@ -210,7 +224,7 @@ namespace TransDB
             _context.SaveChanges();
             return;
         }
-        public void AdoptAnswer(string userid,int answerid,int questionid)
+        public bool AdoptAnswer(string userid,int answerid,int questionid)
         {
             string QUserid = GetUserIDbyQues(questionid);
             string AUserid = GetUserIDbyAns(answerid);
@@ -226,13 +240,14 @@ namespace TransDB
                     user.Wealth += Ques.Reward;
                     Adopt(userid, questionid);
                     _context.SaveChanges();
+                    return true;
                 }
                 else
                 {
                     Console.WriteLine("不可以采纳自己的回答");
                 }
             }
-            return;
+            return false;
         }
     }
 }
