@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using Microsoft.EntityFrameworkCore;
 using TransDB.Models;
+using TranslatorApi.Models;
 
 namespace TranslatorApi.Controllers
 {
@@ -21,6 +22,13 @@ namespace TranslatorApi.Controllers
         {
             this.transContext = context;
             this.transService = new DBService(context);
+        }
+
+        //翻译 
+        [HttpGet("translate")]
+        public ActionResult<TranslationResult> GetTranslation(string text)
+        {
+            return Translator.Translate(text, "en", "zh");
         }
 
         //登录 localhost:5000/translatorapi/login?userid=czz&password=123456
