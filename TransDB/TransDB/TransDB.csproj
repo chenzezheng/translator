@@ -1,0 +1,45 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <TargetFramework>netcoreapp3.1</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Compile Remove="Migrations\**" />
+    <EmbeddedResource Remove="Migrations\**" />
+    <None Remove="Migrations\**" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Remove="Database1.mdf" />
+    <None Remove="Database1_log.ldf" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Include="Migrations\20200601074303_init.cs" />
+    <Compile Include="Migrations\20200601074303_init.Designer.cs" />
+    <Compile Include="Migrations\DataContextModelSnapshot.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.EntityFrameworkCore" Version="3.1.4" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="3.1.4">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="3.1.4">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
+    <PackageReference Include="Microsoft.Extensions.Configuration.Json" Version="3.1.4" />
+    <PackageReference Include="Pomelo.EntityFrameworkCore.MySql" Version="3.1.1" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Update="appsettings.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+
+</Project>
