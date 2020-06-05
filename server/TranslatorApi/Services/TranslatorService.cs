@@ -12,10 +12,11 @@ using System.Text;
 using System.Web;
 using System.Security.Cryptography;
 using Newtonsoft.Json;
+using TranslatorApi.Models;
 
-namespace TranslatorApi.Models
+namespace TranslatorApi.Services
 {
-    public class Translator
+    public class BaiduTranslator
     {
         private static string GetMD5WithString(string input)
         {

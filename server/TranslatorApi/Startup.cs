@@ -12,7 +12,8 @@ using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Microsoft.EntityFrameworkCore;
 using Pomelo.EntityFrameworkCore.MySql.Infrastructure;
-using TransDB.Models;
+using TranslatorApi.Models;
+using TranslatorApi.Services;
 
 namespace TranslatorApi
 {

@@ -6,7 +6,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.IO;
 
-namespace TransDB.Models
+namespace TranslatorApi.Models
 {
      public class DataContext : DbContext
       {

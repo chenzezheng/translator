@@ -5,7 +5,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace TransDB.Models
+namespace TranslatorApi.Models
 {
     [Table("Questions")]
     public class Question
