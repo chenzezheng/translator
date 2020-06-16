@@ -22,15 +22,11 @@ namespace TranslatorApi.Services
         {
             IQueryable<Question> query = _context.Questions;
             var result = query.ToList();
-            foreach (var question in query)
-            {
-                Console.WriteLine("提问内容:{0}，问题号:{1}，问题赏金:{2}，问题创建时间:{3}，问题用户名:{4}", question.Content, question.QuestionID, question.Reward, question.Qcreatetime, question.UserID);
-            }
             return result;
         }
 
         //创建新问题*
-        public Question AddQuestion(string content,int reward , string userid)
+        public Question AddQuestion(string content, int reward, string userid)
         {
             var question = new Question();
             try
@@ -38,13 +34,14 @@ namespace TranslatorApi.Services
                 question.Qcreatetime = DateTime.Now;
                 question.UserID = userid;
                 question.Content = content;
+                question.Adopted = false;
                 question.Reward = reward;
                 _context.Questions.Add(question);
                 _context.SaveChanges();
             }
             catch (Exception e)
             {
-                Console.WriteLine("异常信息：{0}", e.InnerException.Message);
+                throw e;
             }
             return question;
         }
@@ -59,15 +56,43 @@ namespace TranslatorApi.Services
                 answer.Isadopted = false;
                 answer.Content = content;
                 answer.UserID = userid;
+                answer.Likes = 0;
                 answer.QuestionID = questionid;
                 _context.Answers.Add(answer);
                 _context.SaveChanges();
             }
             catch (Exception e)
             {
-                Console.WriteLine("异常信息：{0}", e.InnerException.Message);
+                throw e;
             }
             return answer;
+        }
+
+        //搜索
+        public List<Question> Search(string key)
+        {
+            IQueryable<Question> query = _context.Questions.Where(q => q.Content.Contains(key));
+            return query.ToList();
+        }
+
+        //点赞*
+        public Like Addlikes(string userid, int answerid)
+        {
+            var answer = _context.Answers.FirstOrDefault(a => a.AnswerID == answerid);
+            var like = new Like();
+            try
+            {
+                like.Userid = userid;
+                like.AnswerID = answerid;
+                answer.Likes += 1;
+                _context.Likes.Add(like);
+                _context.SaveChanges();
+            }
+            catch (Exception e)
+            {
+                throw e;
+            }
+            return like;
         }
 
         //查询用户问题*
@@ -78,11 +103,11 @@ namespace TranslatorApi.Services
             {
                 query = query.Where(q => q.UserID == userid);
             }
-            //Console.WriteLine(query);
-            foreach(var question in query)
+            else
             {
-                Console.WriteLine("提问内容:{0}，问题号:{1}，问题赏金:{2}，问题创建时间:{3}，问题用户名:{4}", question.Content, question.QuestionID, question.Reward, question.Qcreatetime, question.UserID);
+                throw new Exception("No such query record");
             }
+
             return query.ToList();
         }
 
@@ -94,9 +119,9 @@ namespace TranslatorApi.Services
             {
                 query = query.Where(a => a.UserID == userid);
             }
-            foreach(var answer in query)
+            else
             {
-                Console.WriteLine("回答:{0},回答者:{1}", answer.Content, answer.UserID);
+                throw new Exception("No such query record");
             }
             return query.ToList();
         }
@@ -109,9 +134,9 @@ namespace TranslatorApi.Services
             {
                 query = query.Where(a => a.QuestionID == question_id);
             }
-            foreach(var answer in query)
+            else
             {
-                Console.WriteLine("回答:{0},回答者:{1}", answer.Content, answer.UserID);
+                throw new Exception("No such query record");
             }
             return query.ToList();
         }
@@ -123,34 +148,37 @@ namespace TranslatorApi.Services
             var user = _context.Answers.FirstOrDefault(u => u.AnswerID == answerid);
             if (user == null)
             {
-                Console.WriteLine("无此回答");
+                throw new Exception("No such answer");
             }
-            Console.WriteLine("回答用户名:{0}", user.UserID);
+            //Console.WriteLine("回答用户名:{0}", user.UserID);
             return user.UserID;
         }
+
         //根据问题号找到提问者*
         public string GetUserIDbyQues(int questionid)
         {
-            var user = _context.Questions.FirstOrDefault(u => u.QuestionID== questionid);
+            var user = _context.Questions.FirstOrDefault(u => u.QuestionID == questionid);
             if (user == null)
             {
-                Console.WriteLine("无此问题");
+                throw new Exception("No such question");
             }
-            Console.WriteLine("提问用户名:{0}", user.UserID);
+            //Console.WriteLine("提问用户名:{0}", user.UserID);
             return user.UserID;
         }
-        public void Adopt(string userid,int questionid)
+
+        public void Adopt(string userid, int questionid)
         {
             var user = _context.Users.FirstOrDefault(t => t.UserID == userid);
-            var question= _context.Questions.FirstOrDefault(q => q.QuestionID == questionid);
+            var question = _context.Questions.FirstOrDefault(q => q.QuestionID == questionid);
             if (user.Wealth >= question.Reward)
             {
-                user.Wealth -=  question.Reward;
+                user.Wealth -= question.Reward;
             }
             _context.SaveChanges();
             return;
         }
-        public bool AdoptAnswer(string userid,int answerid,int questionid)
+
+        public bool AdoptAnswer(string userid, int answerid, int questionid)
         {
             string QUserid = GetUserIDbyQues(questionid);
             string AUserid = GetUserIDbyAns(answerid);
@@ -160,18 +188,22 @@ namespace TranslatorApi.Services
 
             if (userid == QUserid)
             {
-                if(AUserid != QUserid)
+                if (AUserid != QUserid)
                 {
                     Ans.Isadopted = true;
                     user.Wealth += Ques.Reward;
+                    Ques.Adopted = true;
                     Adopt(userid, questionid);
                     _context.SaveChanges();
-                    return true;
                 }
                 else
                 {
-                    Console.WriteLine("不可以采纳自己的回答");
+                    throw new Exception("Don't adopt yourself");
                 }
+            }
+            else
+            {
+                throw new Exception("Do not have this permission");
             }
             return false;
         }

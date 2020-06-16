@@ -23,74 +23,38 @@ namespace TranslatorApi.Services
             var user = new User();
             if (userid != "")
             {
-                user.UserID = userid;
-                user.Password = password;
-                user.Wealth = 100;
-                _context.Users.Add(user);
-                _context.SaveChanges();
+                try
+                {
+                    user.UserID = userid;
+                    user.Password = password;
+                    user.Wealth = 100;
+                    _context.Users.Add(user);
+                    _context.SaveChanges();
+                }
+                catch (Exception e)
+                {
+                    throw e;
+                }
             }
             else
             {
-                Console.WriteLine("用户名不可为空");
+                throw new Exception("Not Null UserID");
             }
             return user;
         }
 
-        //生成随机不重复字符串*
-        private int rep = 0;
-        private string GenerateCheckCode(int codeCount)
-        {
-            string str = string.Empty;
-            long num2 = DateTime.Now.Ticks + this.rep;
-            this.rep++;
-            Random random = new Random(((int)(((ulong)num2) & 0xffffffffL)) | ((int)(num2 >> this.rep)));
-            for (int i = 0; i < codeCount; i++)
-            {
-                char ch;
-                int num = random.Next();
-                if ((num % 2) == 0)
-                {
-                    ch = (char)(0x30 + ((ushort)(num % 10)));
-                }
-                else
-                {
-                    ch = (char)(0x41 + ((ushort)(num % 0x1a)));
-                }
-                str = str + ch.ToString();
-            }
-            return str;
-        }
-
         //登录*
-        public Token UserLogin(string userid, string password)
+        public string UserLogin(string userid, string password)
         {
-            IQueryable<User> query = _context.Users;
-            var token = new Token();
-            foreach(var user in query)
+            var user = _context.Users.FirstOrDefault(u => u.UserID == userid);
+            if (password == user.Password)
             {
-                if (userid == user.UserID && password == user.Password)
-                {
-                    token.TokenID = GenerateCheckCode(6);
-                    token.UserID = userid;
-                }
+                return userid;
             }
-            _context.Tokens.Add(token);
-            _context.SaveChanges();
-            Console.WriteLine("用户名:{0},登录令牌号:{1}", token.UserID, token.TokenID);
-            return token;
-        }
-
-        //根据tokenid返回userid*
-        public string GetUserID(string tokenid)
-        {
-            var user = _context.Tokens.FirstOrDefault(t => t.TokenID == tokenid);
-            if (user == null)
+            else
             {
-                Console.WriteLine("无此登录记录");
+                throw new Exception("Failed to login");
             }
-            Console.WriteLine("用户名:{0}", user.UserID);
-            return user.UserID;
         }
-
     }
 }

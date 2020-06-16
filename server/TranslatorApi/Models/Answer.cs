@@ -21,5 +21,6 @@ namespace TranslatorApi.Models
         public bool Isadopted { get; set; }
         public string UserID { get; set; }
         public int QuestionID { get; set; }
+        public int Likes { get; set; }
     }
 }

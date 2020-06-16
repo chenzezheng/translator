@@ -16,7 +16,6 @@ namespace TranslatorApi.Models
         public string Password { get; set; }
         [Required]
         public int Wealth { get; set; }
-        public List<Token> Tokens { get; set; }
         public List<Question> Questions { get; set; }
         public List<Answer> Answers { get; set; }
     }

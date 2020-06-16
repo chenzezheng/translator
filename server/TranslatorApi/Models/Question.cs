@@ -19,6 +19,8 @@ namespace TranslatorApi.Models
         public int Reward { get; set; }
         [Required]
         public DateTime Qcreatetime { get; set; }
+        [Required]
+        public bool Adopted { get; set; }
         public string UserID { get; set; }
         public List<Answer> Answers { get; set; }
     }

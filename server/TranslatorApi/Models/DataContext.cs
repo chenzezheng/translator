@@ -12,12 +12,18 @@ namespace TranslatorApi.Models
       {
             public DataContext(DbContextOptions<DataContext> options)
             : base(options)
-        {
+            {
             this.Database.EnsureCreated();
-        }
+            }
+
+            protected override void OnModelCreating(ModelBuilder modelBuilder)
+            {
+                modelBuilder.Entity<Like>().HasKey(t => new { t.Userid, t.AnswerID });
+                base.OnModelCreating(modelBuilder);
+            }
 
             public DbSet<User> Users { get; set; }
-            public DbSet<Token> Tokens { get; set; }
+            public DbSet<Like> Likes { get; set; }
             public DbSet<Question> Questions { get; set; }
             public DbSet<Answer> Answers { get; set; }
       }

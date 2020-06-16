@@ -7,11 +7,12 @@ using System.Threading.Tasks;
 
 namespace TranslatorApi.Models
 {
-    [Table("Tokens")]
-    public class Token
+    [Table("Likes")]
+    public class Like
     {
         [Key]
-        public string TokenID { get; set; }
-        public string UserID { get; set; }
+        public string Userid { get; set; }
+        [Key]
+        public int AnswerID { get; set; }
     }
 }

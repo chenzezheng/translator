@@ -24,17 +24,11 @@ namespace TranslatorApi.Controllers
 
         //登录 localhost:5000/user/login?userid=czz&password=123456
         [HttpGet("login")]
-        public ActionResult<Token> GetLogin(string userid, string password)
+        public ActionResult<string> GetLogin(string userid, string password)
         {
             return userService.UserLogin(userid, password);
         }
 
-        //根据tokenid返回userid localhost:5000/user/userid?token=R864B2
-        [HttpGet("userid")]
-        public ActionResult<string> GetUserID(string token)
-        {
-            return userService.GetUserID(token);
-        }
 
         //注册 localhost:5000/user/register
         [HttpPost("register")]
