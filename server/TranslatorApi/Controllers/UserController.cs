@@ -24,17 +24,35 @@ namespace TranslatorApi.Controllers
 
         //登录 localhost:5000/user/login?userid=czz&password=123456
         [HttpGet("login")]
-        public ActionResult<string> GetLogin(string userid, string password)
+        public ActionResult<User> GetLogin(string userid, string password)
         {
-            return userService.UserLogin(userid, password);
+            User newUser = null;
+            try
+            {
+                newUser = userService.UserLogin(userid, password);
+            }
+            catch (Exception e)
+            {
+                return BadRequest(e.InnerException.Message);
+            }
+            return newUser;
         }
 
 
-        //注册 localhost:5000/user/register
+        //注册 localhost:5000/user/register?userid=czz&password=123456
         [HttpPost("register")]
-        public ActionResult<User> PostRegister(User newUser)
+        public ActionResult<User> PostRegister(string userid, string password)
         {
-            return userService.UserRegister(newUser.UserID, newUser.Password);
+            User newUser = null;
+            try
+            {
+                newUser = userService.UserRegister(userid, password);
+            }
+            catch (Exception e)
+            {
+                return BadRequest(e.InnerException.Message);
+            }
+            return newUser;
         }
     }
 }

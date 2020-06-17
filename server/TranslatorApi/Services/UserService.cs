@@ -38,18 +38,18 @@ namespace TranslatorApi.Services
             }
             else
             {
-                throw new Exception("Not Null UserID");
+                throw new Exception("UserID Cannot be Null");
             }
             return user;
         }
 
         //登录*
-        public string UserLogin(string userid, string password)
+        public User UserLogin(string userid, string password)
         {
             var user = _context.Users.FirstOrDefault(u => u.UserID == userid);
             if (password == user.Password)
             {
-                return userid;
+                return user;
             }
             else
             {

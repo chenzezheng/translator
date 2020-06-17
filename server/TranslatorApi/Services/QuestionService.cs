@@ -11,6 +11,7 @@ namespace TranslatorApi.Services
     public class QuestionService
     {
         private readonly DataContext _context;
+        private readonly int pageSize = 15;
 
         public QuestionService(DataContext context)
         {
@@ -18,15 +19,15 @@ namespace TranslatorApi.Services
         }
 
         //查看所有问题*
-        public List<Question> GetAllQuestions()
+        public List<Question> GetAllQuestions(int page)
         {
             IQueryable<Question> query = _context.Questions;
-            var result = query.ToList();
+            var result = query.Skip((page - 1) * pageSize).Take(pageSize).ToList();
             return result;
         }
 
         //创建新问题*
-        public Question AddQuestion(string content, int reward, string userid)
+        public Question AddQuestion(string userid, string content, int reward)
         {
             var question = new Question();
             try
@@ -47,7 +48,7 @@ namespace TranslatorApi.Services
         }
 
         //创建新回答*
-        public Answer AddAnswer(string content, string userid, int questionid)
+        public Answer AddAnswer(string userid, string content, int questionid)
         {
             var answer = new Answer();
             try
@@ -69,14 +70,14 @@ namespace TranslatorApi.Services
         }
 
         //搜索
-        public List<Question> Search(string key)
+        public List<Question> Search(string key, int page)
         {
             IQueryable<Question> query = _context.Questions.Where(q => q.Content.Contains(key));
-            return query.ToList();
+            return query.Skip((page - 1) * pageSize).Take(pageSize).ToList();
         }
 
         //点赞*
-        public Like Addlikes(string userid, int answerid)
+        public bool Addlikes(string userid, int answerid)
         {
             var answer = _context.Answers.FirstOrDefault(a => a.AnswerID == answerid);
             var like = new Like();
@@ -92,11 +93,11 @@ namespace TranslatorApi.Services
             {
                 throw e;
             }
-            return like;
+            return true;
         }
 
         //查询用户问题*
-        public List<Question> QueryQuestionbyUserid(string userid)
+        public List<Question> QueryQuestionbyUserid(string userid, int page)
         {
             IQueryable<Question> query = _context.Questions;
             if (query != null)
@@ -108,11 +109,11 @@ namespace TranslatorApi.Services
                 throw new Exception("No such query record");
             }
 
-            return query.ToList();
+            return query.Skip((page - 1) * pageSize).Take(pageSize).ToList();
         }
 
         //根据用户查询回答*
-        public List<Answer> QueryAnswerbyUserid(string userid)
+        public List<Answer> QueryAnswerbyUserid(string userid, int page)
         {
             IQueryable<Answer> query = _context.Answers;
             if (query != null)
@@ -123,7 +124,7 @@ namespace TranslatorApi.Services
             {
                 throw new Exception("No such query record");
             }
-            return query.ToList();
+            return query.Skip((page - 1) * pageSize).Take(pageSize).ToList();
         }
 
         //根据问题查询回答*
@@ -198,14 +199,14 @@ namespace TranslatorApi.Services
                 }
                 else
                 {
-                    throw new Exception("Don't adopt yourself");
+                    throw new Exception("Can not adopt your answer");
                 }
             }
             else
             {
                 throw new Exception("Do not have this permission");
             }
-            return false;
+            return true;
         }
     }
 }
