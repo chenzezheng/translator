@@ -22,6 +22,7 @@ namespace TranslatorApi.Controllers
             this.questionService = new QuestionService(context);
         }
 
+        /*
         //查询回答 localhost:5000/question/answerQuery?userid=zdt&page=1
         [HttpGet("answerQuery")]
         public ActionResult<List<Answer>> GetAnswer(int questionid, string userid, int page)
@@ -35,7 +36,7 @@ namespace TranslatorApi.Controllers
                 }
                 catch (Exception e)
                 {
-                    return BadRequest(e.InnerException.Message);
+                    return BadRequest(e.Message);
                 }
             }
             else
@@ -47,42 +48,51 @@ namespace TranslatorApi.Controllers
                 }
                 catch (Exception e)
                 {
-                    return BadRequest(e.InnerException.Message);
+                    return BadRequest(e.Message);
                 }
             }
 
             return answers;
         }
+        */
 
         //查询问题 localhost:5000/question/questionQuery?userid=czz&page=1
         [HttpGet("questionQuery")]
-        public ActionResult<List<Question>> GetQuestion(string userid, string keyword, int page)
+        public ActionResult<List<Question>> GetQuestion(string userid, string answerdbyuserid, string keyword, int page)
         {
             List<Question> questions = null;
-            if (userid == null)
+            try
             {
-                if (keyword == null)
+                if (userid == null)
                 {
-                    //查询所有问题
-                    questions = questionService.GetAllQuestions(page);
+                    if (keyword == null)
+                    {
+                        if (answerdbyuserid == null)
+                        {
+                            //查询所有问题
+                            questions = questionService.GetAllQuestions(page);
+                        }
+                        else
+                        {
+                            //查询用户回答的问题
+                            questions = questionService.QueryQuestionAnswerdByUser(answerdbyuserid, page);
+                        }
+                    }
+                    else
+                    {
+                        //搜索
+                        questions = questionService.Search(keyword, page);
+                    }
                 }
                 else
-                {
-                    //搜索
-                    questions = questionService.Search(keyword, page);
-                }
-            }
-            else
-            {
-                try
                 {
                     //查询用户问题
                     questions = questionService.QueryQuestionbyUserid(userid, page);
                 }
-                catch (Exception e)
-                {
-                    return BadRequest(e.InnerException.Message);
-                }
+            }
+            catch (Exception e)
+            {
+                return BadRequest(e.Message);
             }
             
             return questions;
@@ -99,7 +109,7 @@ namespace TranslatorApi.Controllers
             }
             catch (Exception e)
             {
-                return BadRequest(e.InnerException.Message);
+                return BadRequest(e.Message);
             }
             return newQuestion;
         }
@@ -115,7 +125,7 @@ namespace TranslatorApi.Controllers
             }
             catch (Exception e)
             {
-                return BadRequest(e.InnerException.Message);
+                return BadRequest(e.Message);
             }
             return newAnswer;
         }
@@ -131,7 +141,7 @@ namespace TranslatorApi.Controllers
             }
             catch (Exception e)
             {
-                return BadRequest(e.InnerException.Message);
+                return BadRequest(e.Message);
             }
             return result;
         }
@@ -147,7 +157,7 @@ namespace TranslatorApi.Controllers
             }
             catch (Exception e)
             {
-                return BadRequest(e.InnerException.Message);
+                return BadRequest(e.Message);
             }
             return result;
         }

@@ -16,9 +16,19 @@ namespace TranslatorApi.Controllers
     {
         //翻译 
         [HttpGet("translate")]
-        public ActionResult<TranslationResult> GetTranslation(string text)
+        public ActionResult<TranslationResults> GetTranslation(string text, string from, string to)
         {
-            return BaiduTranslator.Translate(text, "en", "zh");
+            try
+            {
+                if (from == null) from = "auto";
+                if (to == null) to = "auto";
+                TranslatorService translator = new TranslatorService(text, from, to);
+                return translator.GetTranslationResult();
+            }
+            catch (Exception e)
+            {
+                return BadRequest(e.Message);
+            }
         }
     }
 }

@@ -21,7 +21,7 @@ namespace TranslatorApi.Services
         public User UserRegister(string userid, string password)
         {
             var user = new User();
-            if (userid != "")
+            if (userid != null && userid != "")
             {
                 try
                 {
@@ -33,7 +33,7 @@ namespace TranslatorApi.Services
                 }
                 catch (Exception e)
                 {
-                    throw e;
+                    throw new Exception(e.InnerException.Message);
                 }
             }
             else
@@ -47,7 +47,7 @@ namespace TranslatorApi.Services
         public User UserLogin(string userid, string password)
         {
             var user = _context.Users.FirstOrDefault(u => u.UserID == userid);
-            if (password == user.Password)
+            if (user != null && password == user.Password)
             {
                 return user;
             }

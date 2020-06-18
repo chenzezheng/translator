@@ -21,8 +21,12 @@ namespace TranslatorApi.Services
         //查看所有问题*
         public List<Question> GetAllQuestions(int page)
         {
-            IQueryable<Question> query = _context.Questions;
+            IQueryable<Question> query = _context.Questions.Include("Answers").OrderByDescending(query=>query.Qcreatetime);
             var result = query.Skip((page - 1) * pageSize).Take(pageSize).ToList();
+            if (result.Count == 0 && page > 1)
+            {
+                throw new Exception("Page number is out of range");
+            }
             return result;
         }
 
@@ -42,7 +46,7 @@ namespace TranslatorApi.Services
             }
             catch (Exception e)
             {
-                throw e;
+                throw new Exception(e.InnerException.Message);
             }
             return question;
         }
@@ -64,7 +68,7 @@ namespace TranslatorApi.Services
             }
             catch (Exception e)
             {
-                throw e;
+                throw new Exception(e.InnerException.Message);
             }
             return answer;
         }
@@ -72,8 +76,13 @@ namespace TranslatorApi.Services
         //搜索
         public List<Question> Search(string key, int page)
         {
-            IQueryable<Question> query = _context.Questions.Where(q => q.Content.Contains(key));
-            return query.Skip((page - 1) * pageSize).Take(pageSize).ToList();
+            IQueryable<Question> query = _context.Questions.Include("Answers").Where(q => q.Content.Contains(key)).OrderByDescending(query=>query.Qcreatetime);
+            List<Question> result = query.Skip((page - 1) * pageSize).Take(pageSize).ToList();
+            if (result.Count == 0 && page > 1)
+            {
+                throw new Exception("Page number is out of range");
+            }
+            return result;
         }
 
         //点赞*
@@ -91,7 +100,7 @@ namespace TranslatorApi.Services
             }
             catch (Exception e)
             {
-                throw e;
+                throw new Exception(e.InnerException.Message);
             }
             return true;
         }
@@ -99,7 +108,7 @@ namespace TranslatorApi.Services
         //查询用户问题*
         public List<Question> QueryQuestionbyUserid(string userid, int page)
         {
-            IQueryable<Question> query = _context.Questions;
+            IQueryable<Question> query = _context.Questions.Include("Answers").OrderByDescending(query=>query.QuestionID);
             if (query != null)
             {
                 query = query.Where(q => q.UserID == userid);
@@ -109,7 +118,12 @@ namespace TranslatorApi.Services
                 throw new Exception("No such query record");
             }
 
-            return query.Skip((page - 1) * pageSize).Take(pageSize).ToList();
+            List<Question> result = query.Skip((page - 1) * pageSize).Take(pageSize).ToList();
+            if (result.Count == 0 && page > 1)
+            {
+                throw new Exception("Page number is out of range");
+            }
+            return result;
         }
 
         //根据用户查询回答*
@@ -124,22 +138,31 @@ namespace TranslatorApi.Services
             {
                 throw new Exception("No such query record");
             }
-            return query.Skip((page - 1) * pageSize).Take(pageSize).ToList();
+            List<Answer> result = query.Skip((page - 1) * pageSize).Take(pageSize).ToList();
+            if (result.Count == 0 && page > 1)
+            {
+                throw new Exception("Page number is out of range");
+            }
+            return result;
         }
 
-        //根据问题查询回答*
-        public List<Answer> QueryAllAnswers(int question_id)
+        //查询用户回答过的问题
+        public List<Question> QueryQuestionAnswerdByUser(string userid,int page)
         {
-            IQueryable<Answer> query = _context.Answers;
-            if (query != null)
+            IEnumerable<Question> query = _context.Questions.Include("Answers");
+            query = query.Where(q => q.Answers.Exists(answer => answer.UserID == userid)).OrderByDescending(query=>query.Qcreatetime);
+            /*List<Question> questions = new List<Question>();
+            foreach(Answer a in query)
             {
-                query = query.Where(a => a.QuestionID == question_id);
-            }
-            else
+                Question question = _context.Questions.Include("Answers").FirstOrDefault(b=>b.QuestionID==a.QuestionID);
+                questions.Add(question);
+            }*/
+            List<Question> result = query.Skip((page-1)*pageSize).Take(pageSize).ToList();
+            if (result.Count == 0 && page > 1)
             {
-                throw new Exception("No such query record");
+                throw new Exception("Page number is out of range");
             }
-            return query.ToList();
+            return result;
         }
 
         //提问者采纳某一回答
@@ -167,19 +190,8 @@ namespace TranslatorApi.Services
             return user.UserID;
         }
 
-        public void Adopt(string userid, int questionid)
-        {
-            var user = _context.Users.FirstOrDefault(t => t.UserID == userid);
-            var question = _context.Questions.FirstOrDefault(q => q.QuestionID == questionid);
-            if (user.Wealth >= question.Reward)
-            {
-                user.Wealth -= question.Reward;
-            }
-            _context.SaveChanges();
-            return;
-        }
-
-        public bool AdoptAnswer(string userid, int answerid, int questionid)
+        //采纳
+         public bool AdoptAnswer(string userid, int answerid, int questionid)
         {
             string QUserid = GetUserIDbyQues(questionid);
             string AUserid = GetUserIDbyAns(answerid);
@@ -194,7 +206,7 @@ namespace TranslatorApi.Services
                     Ans.Isadopted = true;
                     user.Wealth += Ques.Reward;
                     Ques.Adopted = true;
-                    Adopt(userid, questionid);
+                  //  Adopt(userid, questionid);
                     _context.SaveChanges();
                 }
                 else
@@ -208,5 +220,6 @@ namespace TranslatorApi.Services
             }
             return true;
         }
+
     }
 }

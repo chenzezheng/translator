@@ -33,7 +33,7 @@ namespace TranslatorApi.Controllers
             }
             catch (Exception e)
             {
-                return BadRequest(e.InnerException.Message);
+                return BadRequest(e.Message);
             }
             return newUser;
         }
@@ -50,7 +50,7 @@ namespace TranslatorApi.Controllers
             }
             catch (Exception e)
             {
-                return BadRequest(e.InnerException.Message);
+                return BadRequest(e.Message);
             }
             return newUser;
         }
