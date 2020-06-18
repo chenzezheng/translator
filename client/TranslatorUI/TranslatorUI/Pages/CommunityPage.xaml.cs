@@ -230,6 +230,8 @@ namespace TranslatorUI.Pages
                 {
                     Question newQuestion = new Question(ask.QContent, ask.Reward, User.UserId, false, DateTime.Now, new List<Answer>());
                     QuestionList.Insert(0, newQuestion);
+                    if (QuestionList.Count > 15)
+                        QuestionList.RemoveAt(14);
                     this.User.Coin -= ask.Reward;
                     this.QuesItem.ItemsSource = null;
                     this.QuesItem.ItemsSource = QuestionList;
