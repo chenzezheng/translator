@@ -22,40 +22,6 @@ namespace TranslatorApi.Controllers
             this.questionService = new QuestionService(context);
         }
 
-        /*
-        //查询回答 localhost:5000/question/answerQuery?userid=zdt&page=1
-        [HttpGet("answerQuery")]
-        public ActionResult<List<Answer>> GetAnswer(int questionid, string userid, int page)
-        {
-            List<Answer> answers = null;
-            if (userid == null)
-            {
-                try
-                {
-                    answers = questionService.QueryAllAnswers(questionid);
-                }
-                catch (Exception e)
-                {
-                    return BadRequest(e.Message);
-                }
-            }
-            else
-            {
-                try
-                {
-                    //根据用户名查询回答
-                    answers = questionService.QueryAnswerbyUserid(userid, page);
-                }
-                catch (Exception e)
-                {
-                    return BadRequest(e.Message);
-                }
-            }
-
-            return answers;
-        }
-        */
-
         //查询问题 localhost:5000/question/questionQuery?userid=czz&page=1
         [HttpGet("questionQuery")]
         public ActionResult<List<Question>> GetQuestion(string userid, string answerdbyuserid, string keyword, int page)

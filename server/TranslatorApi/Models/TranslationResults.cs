@@ -4,8 +4,8 @@ namespace TranslatorApi.Models
 {
     public class TranslationResults
     {
-        public Baidu.TranslationResult BaiduResult;
-        public Youdao.TranslationResult YoudaoResult;
-        public Tencent.TranslationResult TencentResult;
+        public string BaiduResult = "";
+        public string YoudaoResult = "";
+        public string TencentResult = "";
     }
 }

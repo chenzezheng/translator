@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using Microsoft.EntityFrameworkCore;
+using Newtonsoft.Json;
 using TranslatorApi.Models;
 using TranslatorApi.Services;
 
@@ -16,19 +17,22 @@ namespace TranslatorApi.Controllers
     {
         //翻译 
         [HttpGet("translate")]
-        public ActionResult<TranslationResults> GetTranslation(string text, string from, string to)
+        public ActionResult<string> GetTranslation(string text, string from, string to)
         {
+            TranslationResults results = new TranslationResults();
             try
             {
                 if (from == null) from = "auto";
                 if (to == null) to = "auto";
                 TranslatorService translator = new TranslatorService(text, from, to);
-                return translator.GetTranslationResult();
+                results = translator.GetTranslationResult();
             }
             catch (Exception e)
             {
                 return BadRequest(e.Message);
             }
+            Console.WriteLine(JsonConvert.SerializeObject(results));
+            return JsonConvert.SerializeObject(results);
         }
     }
 }
