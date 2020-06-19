@@ -52,6 +52,7 @@
     <Reference Include="PresentationFramework.Aero2" />
     <Reference Include="System" />
     <Reference Include="System.Data" />
+    <Reference Include="System.Drawing" />
     <Reference Include="System.Windows" />
     <Reference Include="System.Xml" />
     <Reference Include="Microsoft.CSharp" />
@@ -78,6 +79,8 @@
     <Compile Include="Models\DisplayAnswer.cs" />
     <Compile Include="Models\Question.cs" />
     <Compile Include="Models\User.cs" />
+    <Compile Include="OCR\OCR.cs" />
+    <Compile Include="OCR\ScreenShotImage.cs" />
     <Compile Include="Service\CommunityService.cs" />
     <Compile Include="Windows\tipWindow.xaml.cs">
       <DependentUpon>tipWindow.xaml</DependentUpon>

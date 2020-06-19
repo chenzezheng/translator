@@ -56,6 +56,8 @@ namespace TranslatorUI.Pages
             parentWin.Show(); //这里是显示当前页面
 
             //文字识别OCR
+            XunfeiOCR.ScreenShotImage.Save(e.Bmp, "temp.jpg");
+            textBeforeTrans.Text = XunfeiOCR.OCR.GetOCRResult("temp.jpg");
         }
         private void cutScreen_btn_Click(object sender, RoutedEventArgs e)
         {

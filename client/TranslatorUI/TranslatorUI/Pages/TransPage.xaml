@@ -56,7 +56,7 @@
             <Button
                 Name="communityTrans_btn"
                 Width="100"
-                Content="社区查询"
+                Content="查看更多"
                 Style="{DynamicResource Btn1}"
                 Click="CommunityTrans_btn_Click"/>
         </StackPanel>

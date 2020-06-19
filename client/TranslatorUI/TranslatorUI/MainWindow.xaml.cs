@@ -27,7 +27,7 @@ namespace TranslatorUI
         public MainWindow()
         {
             InitializeComponent();
-            mainFrame.Navigate(new Uri("Pages/TransPage.xaml",UriKind.Relative));
+            mainFrame.Navigate(new Uri("Pages/TransPage.xaml", UriKind.Relative));
         }
 
         private void btnNav_Click(object sender, RoutedEventArgs e)
