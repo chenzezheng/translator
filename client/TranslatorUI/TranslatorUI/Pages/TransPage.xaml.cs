@@ -19,7 +19,7 @@ namespace TranslatorUI.Pages
     /// <summary>
     /// TransPage.xaml 的交互逻辑
     /// </summary>
-    public partial class TransPage : UserControl
+    public partial class TransPage : Page
     {
         private readonly RisCaptureLib.ScreenCaputre screenCaputre = new RisCaptureLib.ScreenCaputre();
         private Size? lastSize;
@@ -41,7 +41,8 @@ namespace TranslatorUI.Pages
 
         private void OnScreenCaputreCancelled(object sender, System.EventArgs e)
         {
-            //Show(); 这里是显示当前页面
+            var parentWin = Window.GetWindow(this);
+            parentWin.Show(); //这里是显示当前页面
             Focus();
         }
 
@@ -51,22 +52,23 @@ namespace TranslatorUI.Pages
             lastSize = new Size(e.Bmp.Width, e.Bmp.Height);
 
 
-            //Show();  这里是显示当前页面
+            var parentWin = Window.GetWindow(this);
+            parentWin.Show(); //这里是显示当前页面
 
-            //test
-            var bmp = e.Bmp;
-            var win = new Window { SizeToContent = SizeToContent.WidthAndHeight, ResizeMode = ResizeMode.NoResize };
-
-            var canvas = new Canvas { Width = bmp.Width, Height = bmp.Height, Background = new ImageBrush(bmp) };
-
-            win.Content = canvas;
-            win.Show();
+            //文字识别OCR
         }
         private void cutScreen_btn_Click(object sender, RoutedEventArgs e)
         {
-            //Hide();  这里是隐藏当前页面
+             //这里是隐藏当前页面
+            var parentWin = Window.GetWindow(this);
+            parentWin.Hide();
             Thread.Sleep(300);
             screenCaputre.StartCaputre(30, lastSize);
+        }
+
+        private void CommunityTrans_btn_Click(object sender, RoutedEventArgs e)
+        {
+
         }
     }
 
