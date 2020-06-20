@@ -17,7 +17,7 @@ namespace TranslatorApi.Controllers
     {
         //翻译 
         [HttpGet("translate")]
-        public ActionResult<string> GetTranslation(string text, string from, string to)
+        public ActionResult<List<string>> GetTranslation(string text, string from, string to)
         {
             TranslationResults results = new TranslationResults();
             try
@@ -31,8 +31,9 @@ namespace TranslatorApi.Controllers
             {
                 return BadRequest(e.Message);
             }
-            Console.WriteLine(JsonConvert.SerializeObject(results));
-            return JsonConvert.SerializeObject(results);
+            List<string> ret = new List<string>() {results.BaiduResult, results.YoudaoResult, results.TencentResult};
+            Console.WriteLine(JsonConvert.SerializeObject(ret));
+            return ret;
         }
     }
 }
