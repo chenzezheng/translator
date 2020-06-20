@@ -53,7 +53,9 @@
     <Reference Include="System" />
     <Reference Include="System.Data" />
     <Reference Include="System.Drawing" />
+    <Reference Include="System.Web.Extensions" />
     <Reference Include="System.Windows" />
+    <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml" />
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Core" />
@@ -78,10 +80,12 @@
     <Compile Include="Models\Answer.cs" />
     <Compile Include="Models\DisplayAnswer.cs" />
     <Compile Include="Models\Question.cs" />
+    <Compile Include="Models\TranslationResults.cs" />
     <Compile Include="Models\User.cs" />
     <Compile Include="OCR\OCR.cs" />
     <Compile Include="OCR\ScreenShotImage.cs" />
     <Compile Include="Service\CommunityService.cs" />
+    <Compile Include="Service\TranslateService.cs" />
     <Compile Include="Windows\tipWindow.xaml.cs">
       <DependentUpon>tipWindow.xaml</DependentUpon>
     </Compile>

@@ -44,11 +44,13 @@ namespace TranslatorUI.Windows
             {
                 tipWindow tw=new tipWindow("请输入用户名");
                 tw.ShowDialog();
+                return;
             }
             else if (FloatingPasswordBox.Password == "" || FloatingPasswordBox.Password == null)
             {
                 tipWindow tw = new tipWindow("请输入密码");
                 tw.ShowDialog();
+                return;
             }
             if (IsLogIn == true)
                 this.Close();

@@ -8,6 +8,8 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Collections;
 using Newtonsoft.Json;
+using System.Web.Script.Serialization;
+using Newtonsoft.Json.Linq;
 
 namespace XunfeiOCR
 {
@@ -79,13 +81,25 @@ namespace XunfeiOCR
             }
             responseStream.Close();
 
-            return htmlStr;
+            return GetTextFromJson(htmlStr);
             
         }
 
-        public static void TranslateFromImage()
+        private static string GetTextFromJson(string json)
         {
-
+            JObject jObj = JObject.Parse(json);
+            string text = "";
+            foreach (JObject block in jObj["data"]["document"]["blocks"])
+            {
+                foreach (JObject line in block["lines"])
+                {
+                    foreach (JObject character in line["characters"])
+                    {
+                        text += character["text"].ToString();
+                    }
+                }
+            }
+            return text;
         }
     }
 }

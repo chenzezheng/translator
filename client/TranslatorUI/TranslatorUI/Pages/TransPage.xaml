@@ -51,14 +51,15 @@
                 Width="100"
                 Margin="5"
                 HorizontalAlignment="Right"
+                Click="trans_btn_Click"
                 Content="!Translate"
                 Style="{DynamicResource Btn1}" />
             <Button
                 Name="communityTrans_btn"
                 Width="100"
+                Click="CommunityTrans_btn_Click"
                 Content="查看更多"
-                Style="{DynamicResource Btn1}"
-                Click="CommunityTrans_btn_Click"/>
+                Style="{DynamicResource Btn1}" />
         </StackPanel>
         <StackPanel Grid.Row="2" Orientation="Horizontal">
             <Button
@@ -71,7 +72,8 @@
             <Button
                 Name="picUpdate_btn"
                 Width="100"
-                Content="图片上传"
+                Click="picUpdate_btn_Click"
+                Content="导入图片"
                 Style="{DynamicResource Btn1}" />
         </StackPanel>
         <Grid Grid.Row="3">
@@ -85,21 +87,21 @@
                 Margin="5"
                 Background="White"
                 Header="百度">
-                <TextBlock TextWrapping="Wrap" />
+                <TextBlock Name="BaiduResult" TextWrapping="Wrap" />
             </GroupBox>
             <GroupBox
                 Grid.Column="1"
                 Margin="5"
                 Background="White"
                 Header="有道">
-                <TextBlock TextWrapping="Wrap" />
+                <TextBlock Name="YoudaoResult" TextWrapping="Wrap" />
             </GroupBox>
             <GroupBox
                 Grid.Column="2"
                 Margin="5"
                 Background="White"
                 Header="腾讯">
-                <TextBlock TextWrapping="Wrap" />
+                <TextBlock Name="TengxunResult" TextWrapping="Wrap" />
             </GroupBox>
         </Grid>
     </Grid>

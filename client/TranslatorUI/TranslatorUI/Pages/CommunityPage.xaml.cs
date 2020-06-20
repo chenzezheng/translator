@@ -237,6 +237,7 @@ namespace TranslatorUI.Pages
                     this.QuesItem.ItemsSource = QuestionList;
                     CurrentQuestion = QuestionList[0];
                     this.ques_info.DataContext = QuestionList[0];
+                    this.AnsItem.ItemsSource = new List<DisplayAnswer>();
                     coin.Text = "积分：" + User.Coin.ToString();
                 }
                 else
@@ -389,7 +390,16 @@ namespace TranslatorUI.Pages
             this.QuesItem.ItemsSource = null;
             this.QuesItem.ItemsSource = QuestionList;
         }
-
+        public void SearchKeyWord(string keyword)
+        {
+            Keyword.Text = keyword;
+            this.Page = 1;
+            this.CurrentQList = 4;
+            PageLabel.Text = "当前页面:" + Page.ToString();
+            this.QuestionList = CommunityService.SearchQuestion(Keyword.Text, this.Page);
+            this.QuesItem.ItemsSource = null;
+            this.QuesItem.ItemsSource = QuestionList;
+        }
 
     }
 

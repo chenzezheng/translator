@@ -14,7 +14,8 @@ namespace TranslatorUI.Models
     
     public class User
     {
-        public string BaseUrl = "http://localhost:5000/";
+       // public string BaseUrl = "http://localhost:5000/";
+        public string BaseUrl = "http://39.108.211.7/";
         public string UserId { get; set; }
         public int Coin { get; set; }
         public bool SignIn(string userName, string password)  //登录

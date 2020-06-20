@@ -13,7 +13,8 @@ namespace TranslatorUI.Service
 {
     public class CommunityService
     {
-        public static string BaseUrl = "http://localhost:5000/";
+        //public static string BaseUrl = "http://localhost:5000/";
+        public static string BaseUrl = "http://39.108.211.7/";
         static public bool SignUp(string username, string password)   //注册
         {
             HttpClient client = new HttpClient();

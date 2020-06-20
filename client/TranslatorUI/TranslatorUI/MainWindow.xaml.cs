@@ -24,12 +24,13 @@ namespace TranslatorUI
     {
         public Uri CommunityPage { get; set; }
         public CommunityPage CP { get; set; }
+        public TransPage TP { get; set; }
         public MainWindow()
         {
             InitializeComponent();
-            mainFrame.Navigate(new Uri("Pages/TransPage.xaml", UriKind.Relative));
+            TP = new TransPage();
+            mainFrame.Content = TP;
         }
-
         private void btnNav_Click(object sender, RoutedEventArgs e)
         {
             Button btn = sender as Button;
@@ -43,17 +44,44 @@ namespace TranslatorUI
                 else
                 {
                     mainFrame.Content = CP;
-                } 
+                }
             }
             else
             {
-                mainFrame.Content = new TransPage();
+                if (TP == null)
+                {
+                    TP = new TransPage();
+                    mainFrame.Content = TP;
+                }
+                else
+                {
+                    mainFrame.Content = TP;
+                }
             }
 
-              //      CommunityPage = new Uri("Pages/" + btn.Tag.ToString() + ".xaml", UriKind.Relative);
-             //       mainFrame.Navigate(CommunityPage);
+            //      CommunityPage = new Uri("Pages/" + btn.Tag.ToString() + ".xaml", UriKind.Relative);
+            //       mainFrame.Navigate(CommunityPage);
 
         }
+        public void SearchInCommunity(string keyword)
+        {
+            if (CP == null)
+            {
+                CP = new CommunityPage();
+                mainFrame.Content = CP;
+                CP.SearchKeyWord(keyword);
+            }
+            else
+            {
+                mainFrame.Content = CP;
+                CP.SearchKeyWord(keyword);
+            }
+        }
+
+        //      CommunityPage = new Uri("Pages/" + btn.Tag.ToString() + ".xaml", UriKind.Relative);
+        //       mainFrame.Navigate(CommunityPage);
+
+    
     }
 
 }
