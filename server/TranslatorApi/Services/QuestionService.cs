@@ -36,6 +36,8 @@ namespace TranslatorApi.Services
             var question = new Question();
             try
             {
+                User user = _context.Users.FirstOrDefault(u=>u.UserID==userid);
+                user.Wealth -= reward;
                 question.Qcreatetime = DateTime.Now;
                 question.UserID = userid;
                 question.Content = content;
