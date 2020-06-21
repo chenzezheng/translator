@@ -1,0 +1,131 @@
+﻿<Application x:Class="TranslatorUI.App"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:local="clr-namespace:TranslatorUI"
+             xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+             StartupUri="MainWindow.xaml">
+    
+    <Application.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="pack://application:,,,/MaterialDesignThemes.Wpf;component/Themes/MaterialDesignTheme.Light.xaml" />
+                <ResourceDictionary Source="pack://application:,,,/MaterialDesignThemes.Wpf;component/Themes/MaterialDesignTheme.Defaults.xaml" />
+                <ResourceDictionary Source="pack://application:,,,/MaterialDesignColors;component/Themes/Recommended/Primary/MaterialDesignColor.DeepPurple.xaml" />
+                <ResourceDictionary Source="pack://application:,,,/MaterialDesignColors;component/Themes/Recommended/Accent/MaterialDesignColor.Lime.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+            <!--PRIMARY-->
+            <SolidColorBrush x:Key="PrimaryHueLightBrush" Color="AliceBlue"/>
+            <SolidColorBrush x:Key="PrimaryHueLightForegroundBrush" Color="#333333"/>
+            <SolidColorBrush x:Key="PrimaryHueMidBrush" Color="#FFC5DCF0"/>
+            <SolidColorBrush x:Key="PrimaryHueMidForegroundBrush" Color="#FFFFFF"/>
+            <SolidColorBrush x:Key="PrimaryHueDarkBrush" Color="#FFC5DCF0"/>
+            <SolidColorBrush x:Key="PrimaryHueDarkForegroundBrush" Color="#FFFFFF"/>
+            <!--ACCENT-->
+            <SolidColorBrush x:Key="SecondaryAccentBrush" Color="#689f38"/>
+            <SolidColorBrush x:Key="SecondaryAccentForegroundBrush" Color="#FFFFFF"/>
+            <!--button1-->
+            <Style x:Key="Btn1" TargetType="{x:Type Button}">
+                <Setter Property="Template">
+                    <Setter.Value>
+                        <ControlTemplate TargetType="{x:Type Button}">
+                            <Border Background="{TemplateBinding Background}"
+                                    CornerRadius="5">
+                                <ContentPresenter HorizontalAlignment="Center" 
+                                                  VerticalAlignment="Center"/>
+                            </Border>
+                        </ControlTemplate>
+                    </Setter.Value>
+                </Setter>
+                <Setter Property="Background" Value="#FFC5DCF0"/>
+                <Setter Property="Margin" Value="5"/>
+                <Style.Triggers>
+                    <Trigger Property="IsMouseOver" Value="True">
+                        <Setter Property="Background" Value="#FF9FB5C8"/>
+                    </Trigger>
+                </Style.Triggers>
+            </Style>
+            <!--QuestionItem-->
+            <Style x:Key="QuesItem" TargetType="{x:Type ListBoxItem}">
+                <Setter Property="Template">
+                    <Setter.Value>
+                        <ControlTemplate TargetType="{x:Type ListBoxItem}">
+                            <Border BorderBrush="{StaticResource PrimaryHueDarkBrush}" BorderThickness="1">
+                                <Grid Height="50" x:Name="grid" 
+                                  Background="{StaticResource PrimaryHueLightBrush}">
+                                    <Grid Height="50" 
+                                      Width="250" 
+                                      HorizontalAlignment="Left">
+                                        <TextBlock Text="{Binding Content}" 
+                                               TextTrimming="CharacterEllipsis" 
+                                               HorizontalAlignment="Left" 
+                                               Margin="5 7 0 0" 
+                                               FontSize="13"/>
+                                        <TextBlock Text="{Binding UserId}" 
+                                               Foreground="#808080" 
+                                               Margin="5 30 0 0"/>
+                                        <TextBlock Text="{Binding Reward,StringFormat={}${0}}" 
+                                               Foreground="#808080" 
+                                               HorizontalAlignment="Right"
+                                               Margin="0 30 5 0"
+                                               />
+                                    </Grid>
+                                    <Border Background="{StaticResource PrimaryHueDarkBrush}" 
+                                    Width="40" 
+                                    Height="40" 
+                                    CornerRadius="4" 
+                                    HorizontalAlignment="Right" 
+                                    Margin="0 0 5 5">
+                                        <Border.Style>
+                                            <Style TargetType="Border">
+                                                <Style.Triggers>
+                                                    <!--IsAdopted是判断的属性-->
+                                                    <!--IsAdopted是判断的属性-->
+                                                    <DataTrigger Binding="{Binding Solved}" Value="False">
+                                                        <Setter Property="Visibility" Value="Hidden"/>
+                                                    </DataTrigger>
+                                                </Style.Triggers>
+                                            </Style>
+                                        </Border.Style>
+                                        <TextBlock FontSize="23" 
+                                               Foreground="White" 
+                                               VerticalAlignment="Center" 
+                                               HorizontalAlignment="Center">
+                                            <TextBlock.Style>
+                                                <Style TargetType="TextBlock">
+                                                    <Setter Property="Text" Value="默认值"/>
+                                                    <Style.Triggers>
+                                                        <!--IsAdopt是判断的属性-->
+                                                        <DataTrigger Binding="{Binding Solved}" Value="True">
+                                                            <Setter Property="Text" Value="已"/>
+                                                        </DataTrigger>
+                                                        <!--IsAdopt是判断的属性-->
+                                                        <DataTrigger Binding="{Binding Solved}" Value="False">
+                                                            <Setter Property="Text" Value="未"/>
+                                                        </DataTrigger>
+                                                    </Style.Triggers>
+                                                </Style>
+                                            </TextBlock.Style>
+                                        </TextBlock>
+                                    </Border>
+                                </Grid>
+                            </Border>
+                            <ControlTemplate.Triggers>
+                                <Trigger Property="IsMouseOver" Value="true">
+                                    <Setter TargetName="grid" Property="Background" Value="{StaticResource PrimaryHueDarkBrush}"/>
+                                </Trigger>
+                                <Trigger Property="Selector.IsSelected" Value="true">
+                                    <Setter TargetName="grid" Property="Background" Value="{StaticResource PrimaryHueDarkBrush}"/>
+                                </Trigger>
+                            </ControlTemplate.Triggers>
+                        </ControlTemplate>
+                    </Setter.Value>
+                </Setter>
+            </Style>
+   
+        </ResourceDictionary>
+
+    </Application.Resources>
+    
+</Application>
+
+

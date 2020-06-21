@@ -1,0 +1,44 @@
+﻿<Window x:Class="TranslatorUI.Windows.tipWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:TranslatorUI.Windows"
+        mc:Ignorable="d"
+        Title="tipWindow" Height="150" Width="300">
+    <Grid Background="AliceBlue">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="71*"/>
+            <ColumnDefinition Width="222*"/>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="40"/>
+        </Grid.RowDefinitions>
+        <TextBlock Grid.Row="0"
+                   Name="Warning"
+                    Padding="10 0" 
+                    Margin="10,10,9.6,9.8"
+                    Background="White"
+                    materialDesign:HintAssist.Foreground="{StaticResource PrimaryHueMidBrush}" 
+                    materialDesign:TextFieldAssist.UnderlineBrush="{StaticResource PrimaryHueMidBrush}"     
+                    materialDesign:HintAssist.FloatingScale="0.6"                              
+                    Text="一条可爱的提示"
+                    TextAlignment="Center"
+                    FontSize="20" Grid.ColumnSpan="2" />
+        <Button Grid.Row="1" 
+                IsDefault="True" 
+                Name="signUp_btn"
+                Click="signUp_btn_Click"
+                FontSize="20" 
+                Style="{DynamicResource Btn1}" 
+                HorizontalAlignment="Center"
+                Height="30" 
+                Width="70"
+                materialDesign:ButtonAssist.CornerRadius="25" Grid.Column="1" Margin="40.853,5.2,111.6,4.8">
+            <TextBlock Text="确定"
+                       FontSize="18"/>
+        </Button>
+    </Grid>
+</Window>

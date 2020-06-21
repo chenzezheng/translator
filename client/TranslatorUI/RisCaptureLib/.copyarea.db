@@ -1,0 +1,19 @@
+ClearCase CopyAreaDB|4
+vobs\CE-Workstation\CE-CustomControlLib\CE-CustomControlLib\CaptureScreenSln\RisCaptureLib
+2
+f
+6:Themes|2|0|0|0|ce7237d6a8d211df855c00188b8325c9|0
+e:ResizeThumb.cs|1|12a6582da02|2bb6|3dbae326|d04237e4a8d211df856700188b8325c9|0
+10:ScreenCaputre.cs|1|12a83323ffc|45d|b41b493d|7aad0fcdaa7011df979500188b8325c9|0
+17:ResizeThumbPlacement.cs|1|12a657d28e4|10c|196a487d|d04237e7a8d211df856800188b8325c9|0
+9:Config.cs|1|12a8d966dca|1b4|ac068ac9|92f7ae5bac0511df911c00188b8325c9|0
+1a:ScreenCaputredEventArgs.cs|1|12a6922f913|169|66b8652a|d20237f2a8d211df857100188b8325c9|0
+a:Properties|2|0|0|0|cd423801a8d211df855700188b8325c9|0
+f:BitmapCursor.cs|1|12a8e4561fb|82e|fc2537a0|bbd87239ac2111df92f200188b8325c9|0
+10:HelperMethods.cs|1|12a657ff704|10d0|f7989b12|cf1237d9a8d211df855e00188b8325c9|0
+12:IndicatorObject.cs|1|12a8d808d79|5c1|f476b507|9e979a86ac0111df90e300188b8325c9|0
+d:MaskCanvas.cs|1|12a8e3e86f0|2f15|dd69e9cd|e8276d79abfb11df905a00188b8325c9|0
+d:MaskWindow.cs|1|12a8d511f10|11b5|979c1d7|79e77801abfd11df907500188b8325c9|0
+c:ThumbBase.cs|1|12a657ac2c4|5c8|8153b1d2|d33237f4a8d211df857700188b8325c9|0
+c:MoveThumb.cs|1|12a7df97bb9|6d1|6326e6fe|3cd7c296a9a611df97ff00188b8325c9|0
+14:RisCaptureLib.csproj|1|12a8d9d95fb|ec7|645fbd84|b247c34eac0711df914d00188b8325c9|0
