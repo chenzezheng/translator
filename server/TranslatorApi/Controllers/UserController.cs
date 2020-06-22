@@ -22,10 +22,17 @@ namespace TranslatorApi.Controllers
             this.userService = new UserService(context);
         }
 
+        string DecodeFromBase64(string str)
+        {
+            byte[] temp = Convert.FromBase64String(str);  
+            return System.Text.Encoding.Default.GetString(temp);
+        }
+
         //登录 localhost:5000/user/login?userid=czz&password=123456
         [HttpGet("login")]
         public ActionResult<User> GetLogin(string userid, string password)
         {
+            password = DecodeFromBase64(password);
             User newUser = null;
             try
             {
@@ -41,12 +48,11 @@ namespace TranslatorApi.Controllers
 
         //注册 localhost:5000/user/register?userid=czz&password=123456
         [HttpPost("register")]
-        public ActionResult<User> PostRegister(string userid, string password)
+        public ActionResult<User> PostRegister(User newUser)
         {
-            User newUser = null;
             try
             {
-                newUser = userService.UserRegister(userid, password);
+                newUser = userService.UserRegister(newUser.UserID, newUser.Password);
             }
             catch (Exception e)
             {

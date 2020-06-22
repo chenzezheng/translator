@@ -15,10 +15,16 @@ namespace TranslatorApi.Controllers
     [Route("[controller]")]
     public class TranslatorController : ControllerBase
     {
+        string DecodeFromBase64(string str)
+        {
+            byte[] temp = Convert.FromBase64String(str);  
+            return System.Text.Encoding.Default.GetString(temp);
+        }
         //翻译 
         [HttpGet("translate")]
         public ActionResult<List<string>> GetTranslation(string text, string from, string to)
         {
+            text = DecodeFromBase64(text);
             TranslationResults results = new TranslationResults();
             try
             {

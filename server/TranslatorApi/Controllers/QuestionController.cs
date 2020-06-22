@@ -66,12 +66,11 @@ namespace TranslatorApi.Controllers
 
         //创建新问题 localhost:5000/question/newQuestion?userid=czz&content=xxx&reward=123
         [HttpPost("newQuestion")]
-        public ActionResult<Question> PostNewQuestion(string userid, string content, int reward)
+        public ActionResult<Question> PostNewQuestion(Question newQuestion)
         {
-            Question newQuestion = null;
             try
             {
-                newQuestion = questionService.AddQuestion(userid, content, reward);
+                newQuestion = questionService.AddQuestion(newQuestion.UserID, newQuestion.Content, newQuestion.Reward);
             }
             catch (Exception e)
             {
@@ -82,12 +81,11 @@ namespace TranslatorApi.Controllers
 
         //创建新回答 localhost:5000/question/newAnswer?userid=czz&content=xxx&questionid=1
         [HttpPost("newAnswer")]
-        public ActionResult<Answer> PostNewAnswer(string userid, string content, int questionid)
+        public ActionResult<Answer> PostNewAnswer(Answer newAnswer)
         {
-            Answer newAnswer = null;
             try
             {
-                newAnswer = questionService.AddAnswer(userid, content, questionid);
+                newAnswer = questionService.AddAnswer(newAnswer.UserID, newAnswer.Content, newAnswer.QuestionID);
             }
             catch (Exception e)
             {
