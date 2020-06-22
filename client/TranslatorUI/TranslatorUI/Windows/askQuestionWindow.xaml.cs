@@ -24,12 +24,13 @@ namespace TranslatorUI.Windows
         public int Reward { get; set; }
         public string QContent { get; set; }
         public int Coin { get; set; }
-        public askQuestionWindow(User user)
+        public askQuestionWindow(User user, string text)
         {
             InitializeComponent();
             WindowStartupLocation = WindowStartupLocation.CenterScreen;
             HasAsked = false;
             Coin = user.Coin;
+            ContentTextBox.Text = text;
         }
 
         private void Ask_Click(object sender, RoutedEventArgs e)
