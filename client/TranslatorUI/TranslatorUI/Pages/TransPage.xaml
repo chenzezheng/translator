@@ -41,7 +41,8 @@
             Name="textBeforeTrans"
             Grid.Row="1"
             Margin="5"
-            Background="White" />
+            Background="White"
+            TextWrapping="Wrap" />
         <StackPanel
             Grid.Row="2"
             FlowDirection="RightToLeft"

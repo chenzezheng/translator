@@ -512,7 +512,8 @@
                     <TextBox
                         Name="AnswerContent"
                         Grid.Column="0"
-                        Background="White" />
+                        Background="White"
+                        TextWrapping="Wrap" />
                     <Button
                         Grid.Column="1"
                         Height="40"

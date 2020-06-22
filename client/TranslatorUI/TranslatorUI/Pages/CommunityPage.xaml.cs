@@ -221,7 +221,7 @@ namespace TranslatorUI.Pages
                 warning.ShowDialog();
                 return;
             }
-            askQuestionWindow ask = new askQuestionWindow(User);
+            askQuestionWindow ask = new askQuestionWindow(User, Keyword.Text);
             ask.ShowDialog();
             if (ask.HasAsked == true)
             {
