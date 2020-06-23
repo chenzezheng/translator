@@ -20,8 +20,10 @@ namespace TranslatorUI.Service
             HttpClient client = new HttpClient();
             client.DefaultRequestHeaders.Accept.Clear();
             client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
-            string url = CommunityService.BaseUrl + $"user/register?userid=" + username + "&password=" + password;
-            var task = client.PostAsync(url,null);
+            string url = CommunityService.BaseUrl + $"user/register";
+            DBUser dbUser = new DBUser() {UserID=username,Password=password };
+            HttpContent user = new StringContent(JsonConvert.SerializeObject(dbUser), Encoding.UTF8, "application/json");
+            var task = client.PostAsync(url,user);
             bool success = task.Result.IsSuccessStatusCode;
             return success;
         }
@@ -46,7 +48,7 @@ namespace TranslatorUI.Service
                     return qlist;
                 }         
         }
-        static public List<Question> SearchQuestion(string keyword,int page)
+        static public List<Question> SearchQuestion(string keyword,int page)  //查询问题
         {
             HttpClient client = new HttpClient();
             client.DefaultRequestHeaders.Accept.Clear();

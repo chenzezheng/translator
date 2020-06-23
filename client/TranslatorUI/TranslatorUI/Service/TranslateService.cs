@@ -20,10 +20,12 @@ namespace TranslatorUI.Service
             client.DefaultRequestHeaders.Accept.Clear();
             client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
             string url;
+            byte[] a = System.Text.Encoding.Default.GetBytes(text);
+            string Text = Convert.ToBase64String(a);
             if (from == "" || to == "")
-                url = TranslateService.BaseUrl + $"translator/translate?text=" + text;
+                url = TranslateService.BaseUrl + $"translator/translate?text=" + Text;
             else
-                url = TranslateService.BaseUrl + $"translator/translate?text=" + text + "&from=" + from + "&to=" + to;
+                url = TranslateService.BaseUrl + $"translator/translate?text=" + Text + "&from=" + from + "&to=" + to;
             var task = client.GetAsync(url);
             if (task.Result.IsSuccessStatusCode ==false)
                 return null;

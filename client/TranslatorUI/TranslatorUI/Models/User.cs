@@ -14,7 +14,6 @@ namespace TranslatorUI.Models
     
     public class User
     {
-       // public string BaseUrl = "http://localhost:5000/";
         public string BaseUrl = "http://39.108.211.7/";
         public string UserId { get; set; }
         public int Coin { get; set; }
@@ -23,7 +22,9 @@ namespace TranslatorUI.Models
             HttpClient client = new HttpClient();
             client.DefaultRequestHeaders.Accept.Clear();
             client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
-            string url = BaseUrl + "user/login?userid="+userName+"&password="+password;
+            byte[] a = System.Text.Encoding.Default.GetBytes(password);
+            string passWord = Convert.ToBase64String(a);
+            string url = BaseUrl + "user/login?userid="+userName+"&password="+passWord;
             var task = client.GetAsync(url);
             bool success = task.Result.IsSuccessStatusCode;
             if (!success)
@@ -39,15 +40,17 @@ namespace TranslatorUI.Models
                 return true;
             }
         }
-        
+
         public bool Ask(string content, int reward)  //提问
         {
             //传过去生成问题，同时传回questionid，生成question,返回question
             HttpClient client = new HttpClient();
             client.DefaultRequestHeaders.Accept.Clear();
             client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
-            string url = BaseUrl + "question/newQuestion?userid="+this.UserId+"&content="+content+"&reward="+reward;
-            var task = client.PostAsync(url, null);
+            string url = BaseUrl + "question/newQuestion";
+            DBQuestion dbQuestion = new DBQuestion() {UserID = this.UserId, Content = content,Reward=reward};
+            HttpContent question = new StringContent(JsonConvert.SerializeObject(dbQuestion), Encoding.UTF8, "application/json");
+            var task = client.PostAsync(url,question);
             bool success = task.Result.IsSuccessStatusCode;
             return success;
         }
@@ -58,8 +61,10 @@ namespace TranslatorUI.Models
             HttpClient client = new HttpClient();
             client.DefaultRequestHeaders.Accept.Clear();
             client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
-            string url = BaseUrl + "question/newAnswer?userid=" + this.UserId + "&content=" + content + "&questionid=" + questionid;
-            var task = client.PostAsync(url, null);
+            DBAnswer dbAnswer = new DBAnswer() {UserID = this.UserId, Content = content,QuestionID=questionid};
+            HttpContent answer = new StringContent(JsonConvert.SerializeObject(dbAnswer),Encoding.UTF8, "application/json");
+            string url = BaseUrl + "question/newAnswer";
+            var task = client.PostAsync(url, answer);
             bool success = task.Result.IsSuccessStatusCode;
             return success;
         }

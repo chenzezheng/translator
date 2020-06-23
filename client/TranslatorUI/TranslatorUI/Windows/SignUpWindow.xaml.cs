@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.AccessControl;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
@@ -33,6 +34,12 @@ namespace TranslatorUI.Windows
             if (UserName.Text == "" || UserName.Text == null)
             {
                 tipWindow tw = new tipWindow("请输入用户名");
+                tw.ShowDialog();
+                return;
+            }
+            if (!(System.Text.RegularExpressions.Regex.IsMatch(UserName.Text, @"^[a-zA-Z0-9]+$")))
+            {
+                tipWindow tw = new tipWindow("用户名只能为字母与数字");
                 tw.ShowDialog();
                 return;
             }
