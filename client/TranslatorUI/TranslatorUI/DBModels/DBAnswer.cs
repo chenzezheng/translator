@@ -17,7 +17,7 @@ namespace TranslatorUI.DBModels
         public int QuestionID { get; set; }
         public int Likes { get; set; }
         public DBAnswer() { }
-        public Answer ConvertToA()
+        public Answer ConvertToA()                //已在factory中实现，等待删除
         {
             Answer answer = new Answer();
             answer.AnswerId = this.AnswerID;
@@ -29,7 +29,7 @@ namespace TranslatorUI.DBModels
             answer.Like = this.Likes;
             return answer;
         }
-        public static List<Answer> ConvertToListA(List<DBAnswer> dbas)
+        public static List<Answer> ConvertToListA(List<DBAnswer> dbas) //还未在factory中实现
         {
             List<Answer> alist = new List<Answer>();
             foreach(DBAnswer dba in dbas )

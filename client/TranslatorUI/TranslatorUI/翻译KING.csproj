@@ -74,9 +74,12 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Abstract\AbstractAnswer.cs" />
     <Compile Include="DBModels\DBAnswer.cs" />
     <Compile Include="DBModels\DBQuestion.cs" />
     <Compile Include="DBModels\DBUser.cs" />
+    <Compile Include="Factory\AnswerFactory.cs" />
+    <Compile Include="Factory\QuestionFactory.cs" />
     <Compile Include="Models\Answer.cs" />
     <Compile Include="Models\DisplayAnswer.cs" />
     <Compile Include="Models\Question.cs" />
